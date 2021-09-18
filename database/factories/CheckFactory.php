@@ -22,7 +22,9 @@ class CheckFactory extends Factory
     public function definition()
     {
         return [
-            //
+            'response_status' => rand(200, 204),
+            'response_content' => $this->faker->randomHtml(),
+            'elapsed_time' => random(1, 1000),
         ];
     }
 }

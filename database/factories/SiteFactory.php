@@ -22,7 +22,9 @@ class SiteFactory extends Factory
     public function definition()
     {
         return [
-            //
+            'name' => $this->faker->name, 
+            'url' => 'https://google.com',
+            'is_online' => $this->faker->boolean, 
         ];
     }
 }
