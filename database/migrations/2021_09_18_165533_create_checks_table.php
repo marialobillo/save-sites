@@ -15,7 +15,15 @@ class CreateChecksTable extends Migration
     {
         Schema::create('checks', function (Blueprint $table) {
             $table->id();
+            $table->integer('response_status_code');
+            $table->text('response_content');
+            $table->integer('elapsed_time');
+
+            $table->unsignedBigInteger('site_id');
+
             $table->timestamps();
+        
+            $table->foreign('site_id')->references('id')->on('sites');
         });
     }
 

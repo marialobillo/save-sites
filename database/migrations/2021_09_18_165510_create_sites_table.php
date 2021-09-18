@@ -15,7 +15,15 @@ class CreateSitesTable extends Migration
     {
         Schema::create('sites', function (Blueprint $table) {
             $table->id();
+            $table->string('name');
+            $table->string('url');
+            $table->boolean('is_online')->nullable();
+
+            $table->unsignedBigInteger('user_id');
+
             $table->timestamps();
+        
+            $table->foreign('user_id')->references('id')->on('users');
         });
     }
 
