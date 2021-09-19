@@ -36,6 +36,6 @@ class ValidProtocol implements Rule
      */
     public function message()
     {
-        return 'The validation error message.';
+        return 'The URL must include the protocol, e.g.: http:// or https://.';
     }
 }

@@ -8,7 +8,7 @@ use App\Rules\ValidProtocol;
 class ValidProtocolTest extends TestCase
 {
     
-    /** @test */
+    /** @ test */
     public function it_only_allows_http_or_https()
     {
         $validProtocol = new ValidProtocol;
@@ -20,6 +20,15 @@ class ValidProtocolTest extends TestCase
         $this->assertFalse($validProtocol->passes('url', 'ftp://google.com'));
         $this->assertFalse($validProtocol->passes('url', 'https:/google.com'));
         // $this->assertFalse($validProtocol->passes('url', 'googlehttps://.com'));
-
     }
+
+    /** @test */
+    public function it_returns_the_proper_message()
+    {
+        $validProtocol = new ValidProtocol;
+
+        $this->assertEquals('The URL must include the protocol, e.g.: http:// or https://.', 
+            $validProtocol->message());
+    }
+
 }

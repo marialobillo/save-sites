@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Site;
 use Illuminate\Http\Request;
+use App\Rules\ValidProtocol;
 
 class SiteController extends Controller
 {
