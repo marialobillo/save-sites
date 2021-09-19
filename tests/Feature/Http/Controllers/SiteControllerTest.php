@@ -11,6 +11,7 @@ use Illuminate\Foundation\Testing\RefreshDatabase;
 class SiteControllerTest extends TestCase
 {
     use RefreshDatabase;
+
     /**
      * @test
      */
@@ -43,5 +44,32 @@ class SiteControllerTest extends TestCase
         // see site's name on the page 
         $response->assertSeeText('Google');
         $this->assertEquals(route('sites.show', $site), url()->current());
+    }
+
+     /**
+     * @test
+     */
+    public function it_only_allows_authenticated_users_to_create_sites()
+    {
+        $this->withoutExceptionHandling();
+
+
+        // make a post request to a route to create a site 
+        $response = $this
+            ->followingRedirects()
+            ->post(route('sites.store'),
+            [
+                'name' => 'Google',
+                'url' => 'https://google.com',
+            ]);
+
+        // make sure no site exists in the db 
+        $site = Site::first();
+
+        $this->assertEquals(0, Site::count());
+      
+        // see site's name on the page 
+        $response->assertSeeText('Login');
+        $this->assertEquals(route('login', $site), url()->current());
     }
 }
