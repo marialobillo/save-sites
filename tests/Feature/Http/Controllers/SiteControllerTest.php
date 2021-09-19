@@ -7,6 +7,7 @@ use App\Models\Site;
 use App\Models\User;
 use Illuminate\Foundation\Testing\WithFaker;
 use Illuminate\Foundation\Testing\RefreshDatabase;
+use App\Rules\ValidProtocol;
 
 class SiteControllerTest extends TestCase
 {
@@ -66,6 +67,27 @@ class SiteControllerTest extends TestCase
         $this->assertEquals(0, Site::count());
        
         $response->assertSessionHasErrors(['name', 'url']);
+    }
+
+    /** @test */
+    public function it_requires_the_url_to_have_a_valid_protocol()
+    {
+         // Create an user 
+         $user = User::factory()->create();
+
+         // make a post request to a route to create a site 
+         $response = $this
+             ->actingAs($user)
+             ->post(route('sites.store'),
+             [
+                 'name' => 'Google',
+                 'url' => 'google.com',
+             ]);
+ 
+         // make sure no site exists within the database
+         $this->assertEquals(0, Site::count());
+        
+         $response->assertSessionHasErrors(['url']);
     }
 
      /**

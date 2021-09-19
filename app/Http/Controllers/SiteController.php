@@ -37,7 +37,7 @@ class SiteController extends Controller
     {
         $request->validate([
             'name' => ['required', 'string'],
-            'url' => ['required', 'string'],
+            'url' => ['required', 'string', new ValidProtocol],
         ]);
 
         $site = auth()->user()->sites()->create([
