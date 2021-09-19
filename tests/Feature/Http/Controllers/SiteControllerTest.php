@@ -46,13 +46,33 @@ class SiteControllerTest extends TestCase
         $this->assertEquals(route('sites.show', $site), url()->current());
     }
 
+    /** @test */
+    public function it_requires_all_fields_to_be_present()
+    {
+
+        // Create an user 
+        $user = User::factory()->create();
+
+        // make a post request to a route to create a site 
+        $response = $this
+            ->actingAs($user)
+            ->post(route('sites.store'),
+            [
+                'name' => '',
+                'url' => '',
+            ]);
+
+        // make sure no site exists within the database
+        $this->assertEquals(0, Site::count());
+       
+        $response->assertSessionHasErrors(['name', 'url']);
+    }
+
      /**
      * @test
      */
     public function it_only_allows_authenticated_users_to_create_sites()
     {
-        $this->withoutExceptionHandling();
-
 
         // make a post request to a route to create a site 
         $response = $this
